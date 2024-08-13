@@ -69,6 +69,8 @@ El uso de IA puede significar **el fin de la raza humana**. Los 3 principales fo
 
 ### Ejercicio 1.b - Mapa Mental
 
+![alt text](ej1-b.png)
+
 ### Ejercicio 1.c - Opinion Personal
 
 ## Ejercicio 3

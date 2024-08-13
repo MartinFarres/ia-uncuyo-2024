@@ -1,10 +1,12 @@
 # Trabajo Practico 1 - Fundamentos
 
-## Ejercicio 1 - Resumen Cap 26 AIMA
+## Ejercicio 1
+
+### Ejercicio 1.a - Resumen Cap 26 AIMA
 
 Antes de comenzar, es necesario definir 3 terminos en los cuales vamos a ondar. Primero, vamos a definir a la Inteligencia Artificial como a la busqueda del mejor agente en un entorno para una dicha arquitectura. Por un lado, la afirmacion de que una maquina pueda actuar como si fuese inteligente, es decir, simular inteligencia, se define como IA debil. Por el otro lado, vamos a llamar IA fuerte, a la afirmacion de que tales maquinas, no estan simulando, sino que, las mismas son inteligentes.
 
-### Inteligencia Artificial Debil
+#### Inteligencia Artificial Debil
 
 Ahora, debemos preguntarnos, ¿las computadoras/maquinas son capaces de actuar de forma intelignte?. Lo mismo se pregunto Turing en 1950, desarrollando asi una prueba que determinaba si una maquina podia considerarse inteligente, llamado el **Test de Turing**. El mismo consiste en que si una maquina es capaz, en una charla, de engañar al interrogador en creer que esta hablando con un humano por lo menos un 30% de las veces, entonces es inteligente. Sin emabargo, con el pasar de las decadas y la mejora de los agentes inteligentes, hubieros aquellos que objetaron con nuevos argumentos.
 
@@ -16,9 +18,58 @@ Aun así, esta declaracion tenia varios problemas. Primero, que esta posicion se
 
 Por ultimo, es el argumento de la **informalidad del comportamiento**. El mismo dice que, el comportamiento humano es demasiado complejo como para ser definido dentro cualquier set de reglas. Entonces, como las computadoras no pueden hacer más que, solo seguir dicho set de instrucciones, no son capaces de generar un comportamiento inteligente equiparable al de los humanos. Este inabilidad de capturar todo en un set de instrucciones logicas se llama, **problema de calificacion** en IA.
 
-### Inteligencia Artificial Fuerte
+#### Inteligencia Artificial Fuerte
 
-### La ética y los riesgos de desarrollar Inteligencia Artificial
+Muchos filosofos objetan de que parar el test de turing, no implica que una maquina sea capaz de pensar. Para ello, una maquina deberia de ser **conciente** de sus propios estados mentales y acciones. Es decir, debería sentir algun tipo de emoción y actuar entorno a ello. Además, otro foco es la intención de la maquina. La pregunta de si sus creencias, deseos y otras representaciones son acerca de "cosas" en el mundo real.
+
+Turing, minimiza la discución, comentando que dicho conflicto esta destinado a desaparecer con la mejora de los agentes inteligentes, desdoblando cada vez más la linea entre IA fuerte e IA debil. Pero, el problema **mente-cuerpo** sigue siendo: "los humanos tenemos mentes reales, y las maquinas pueden o no tenerlas tambien", y es este problema el que conflictua a varias personas.
+
+Para tratar de comprender que quiere decir que, una persona se encuentra en un estado mental particular, debemos enfocarnos en particular en los **estados intencionales**. Los mismo son estados, como creer, saber, desear, que refierena aspectos del mundo exterior. Si esto es correcto, entonces el estado mental de una persona es determinado por el estado de su cerebro.
+Los estados mentales pueden ser representados por dos puntos de vista:
+
+- **Contenido Amplio**: Es la interpretacion desde un punto de vista omnisciente, el cual tiene acceso a toda la situacion.
+  EM = EC + HE (Historia del entorno).
+- **Contenido Estrecho**: Esta interpretación solo considera el estado del cerebro y no del enterno.
+  De esta manera, podemos decir que para la aplicacion de la IA, el punto de vista de _contenido estrecho_ es más apropiado ya que, no sería correcto suponer que el pensamiento de una IA depende del conocimiento de un sistema exterior. Es decir, lo que importa acerca de un estado cerebral es el rol funcional dentro de las opeaciones mentales de la entidad involucrada.
+
+Tambien se encuentra la teoría de **funcionalismo**, la cual ve a los estados mentales como procesos intermedios entre las entradas y las salidas del sistema. Bajo este teoria, dos sistemas isomorfos, deberian poseer el mismo estado mental. Por ende, un programa computacional podria tener los mismo estados mentales que una persona.
+
+El **Naturalismo Biológico** ha planteado un fuerte desafío al funcionalismo, según el cual los estados mentales son características emergentes de alto nivel causadas por procesos físicos de bajo nivel en las neuronas, y son las propiedades (no especificadas) de las neuronas que importan. Por lo tanto, los estados mentales no se pueden duplicar simplemente sobre la base de algún programa que tenga la misma estructura funcional con el mismo comportamiento de entrada-salida; requeriríamos que el programa se ejecutara en una arquitectura con el mismo poder causal que las neuronas.
+
+Suponga un sistema hipotético que claramente está ejecutando un programa y pasa la prueba de Turing, pero que igualmente no entiende nada de sus entradas y salidas. Su conclusión es que ejecutar el programa apropiado (es decir, tener los resultados correctos) no es una condición suficiente para ser una mente.
+
+La conciencia a menudo se divide en aspectos como la comprensión y la autoconciencia. El aspecto en el que nos centraremos es el de la **experiencia subjetiva**: por qué se siente como algo tener ciertos estados cerebrales (p. ej., mientras se come una hamburguesa), mientras que presumiblemente no se siente como algo tener otros estados físicos (p. ej., ser una roca). El término técnico para la naturaleza intrínseca de las experiencias es **qualia**.
+
+El propio Turing admite que la cuestión de la conciencia es difícil, pero niega que tenga mucha relevancia para la práctica de la IA.
+
+#### La ética y los riesgos de desarrollar Inteligencia Artificial
+
+El libro Ética de la computación plantea algunos posibles problemas a los cuales nos deberíamos afrontar en las ciencias de la computación.
+
+- La gente puede perder su trabajo frente a la automatización
+- La gente tendría mucho tiempo libre (o poco).
+- La gente perdería la sensación de ser única.
+- La IA puede ser utilizada para fines no deseados.
+- El uso de IA puede provocar una perdida de responsabilidad.
+- El uso de IA puede significar el fin de la raza humana.
+
+**La gente puede perder su trabajo por la automatización**. Esto ya viene ocurriendo en muchos aspectos de la economía, pero estas han sido enfocadas en prestar una ayuda al humano y no a remplazarlo. En un futuro se podría desarrollar una IA capaz de aprender cualquier trabajo.
+
+**La gente tendría mucho tiempo libre (o poco)**. Algunos expertos en los 70 predecían que para los 2000, las jornadas laborales se reducirían, hasta incluso un 50% debido a las mejoras tecnológicas. Esto no ha ocurrido del todo como se esperaba ya que las industrias se han vuelto mas intensivas con sistemas computarizados que trabajan 24 horas. Esto beneficia en gran manera aquellos que trabajan mas y mejor, mejorando mucho el margen de ganancias de las industrias.
+
+**La gente perdería la sensación de ser única**. Con el desarrollo del campo de IA, algunos investigadores han llegado a la conclusion de que los humanos puedan ser autómatas. Estas ideas perjudicarían la unicidad de cada persona, aunque no es algo que no haya pasado en la posteridad como con la revolución que planteó Copernico en el sistema solar, sacando a la tierra del centro del universo, o la evolución de Darwin que igualaba al humano con cualquier otra especie.
+
+**La IA puede ser utilizada para fines no deseados**. El avance en las ramas de cualquier ciencia puede llevar a un uso inadecuado o puede resaltar las diferencias entre las personas con mayor poder adquisitivo o incluso amenazar a la vida humana en si. Los sistemas de IA autónomos por ejemplo son utilizados en las guerras para el despliegue de drones autónomos los cuales, claramente, representan una gran ventaja en la guerra. Esto puede ocasionar que se inicien muchas guerras evitables ya que alguno de los lados siente que tiene confianza en dicha tecnología. También puede darse el caso que dichos robots autónomos tomen decisiones que finalicen con la muerte de civiles inocentes.
+
+Otra aplicación que se puede ocasionar con el uso inadecuado de IA es la de **vigilar a la población civil**, provocando que la vida privada de los mismos sea minima o hasta nula.
+
+El uso de IA puede **provocar una perdida de responsabilidad**. Con el uso de las IAs entra en juego también la parte legal. Cuando se pide la opinion de un físico o un medico experto, este tiene que responder por sus acciones en caso de hacer un mal diagnostico. En el caso de que estos diagnósticos sean efectuados por una IA, ¿de quien es la culpa del diagnostico? Actualmente la corte toma a los sistemas como meras referencias y es el medico o físico el responsable por entender las recomendaciones. El dia de mañana si estos sistemas se vuelven mas confiables que los doctores, podría darse el caso de que un doctor pueda ser responsable por no haver uso de las recomendaciones de una IA.
+
+El uso de IA puede significar **el fin de la raza humana**. Los 3 principales focos de riesgo que pueden amenazar a la humanidad son: Un estado de estimación de una IA este mal, provocando un mal funcionamiento, afectando a cosas como que un auto calcule mal las distancias, o peor aun, un misil de un sistema de defensa detecte un ataque y genere un contraataque. Se podría generar una IA de minimización del sufrimiento humano, como el sufrimiento es algo muy complejo de minimizar la IA podría decidir que la única forma de minimizar el sufrimiento es acabar con todos los humanos, sin humanos no habría sufrimiento. Un sistema de IA puede evolucionar con un comportamiento no intencionado. Este es el escenario mas serio que puede desembocar en distintos caminos. Se podría crear una maquina super inteligente, más que cualquier hombre, alcanzando la singularidad tecnológica. Si esto ocurre entonces la era de la humanidad habrá terminado. Otro camino posible en el futuro es la del transhumanismo en el cual la gente comienza a mezclarse o incluso remplazar partes de su cuerpo por invenciones robóticas o biotecnologícas. De esta manera la singularidad haría trascender a los humanos mas allá de sus limitaciones biológicas.
+
+### Ejercicio 1.b - Mapa Mental
+
+### Ejercicio 1.c - Opinion Personal
 
 ## Ejercicio 3
 

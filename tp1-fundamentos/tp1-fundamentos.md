@@ -73,7 +73,11 @@ El uso de IA puede significar **el fin de la raza humana**. Los 3 principales fo
 
 ### Ejercicio 1.c - Opinion Personal
 
-## Ejercicio 3
+En el capitulo 26 de AIMA se principalmente los conceptos de inteligencia artificial y hasta que punto, como y por que podemos o no llamar a las maquinas "inteligentes". En lo personal, creo que las maquinas inteligentes son muy buenas a la hora de simular el razonamiento humano en un entorno contenido y acotado del mundo real. Tomando el problema de calificacion, vemos que replicar el _"como"_ del pensamiento humano en un sub-set de reglas es casi imposible, por no decir imposible, principalmente porque ni si quiera nosotros somos capaces de interpretar y llegar a una unica conclucion. Vemos como en el debate acerca de lo que implica la conciencia y el problema de **mente-cuerpo**, hay varias teoría tan validas como invalidas, al tratarse de temas filosificos es dificil de ser concetro. Es por ello, que mi posicion se encuentra mas sobre que las maquinas, en la actualidad, son solo capaces de simular; pero, no logran pensar como nosotros. Además, comparando al **funcionalismo** con el **naturalismo biológico**, es facil ver que el primero roza lo absurdo, tratando al cerebro humano como un simple computador que procesa datos de entrada y retorna una salida. Es una declaración muy simplista y matematica, omitiendo casi por completo el rol de la biología humana. En conclución, concuerdo con el planteo de Turing, la conciencia es un termino casi indefinible y cambiante, que desenboca en un debate sin que no es de importancia para el desarrollo de agentes inteligentes.
+
+## Ejercicio 2 - Simulacra as Conscious Exotica
+
+## Ejercicio 3 - You Are Not a Parrot
 
 "No eres un loro", es una de las principales preocupaciones de Emily M. Bender. La linguista, deja en claro su preocupacion y su postura en dicho articulo. Recalca la importancia de observar la distincion de los humanos, junto con la humanidad que poseemos, contra a lo que ella llama "loros". Además, toca los temas de la importancia del controlor del desarrollo de las IA, y como la falta del mismo podria desencadenar en varios problemas etico-legales.
 

@@ -77,6 +77,19 @@ En el capitulo 26 de AIMA se principalmente los conceptos de inteligencia artifi
 
 ## Ejercicio 2 - Simulacra as Conscious Exotica
 
+### Ejercicio 2.a
+
+Según el autor, estos agentes no tienen deseos, sentimientos ni intenciones reales; solo los simulan, actuando como si estuvieran en un juego de rol, imposibilitando asi los "encuentros" auténticos con la IA.
+Aunque su integración en robots avanzados es posible, la diferencia fisiológica nos impediría percibirlos de manera similar a los seres conscientes. No obstante, en un futuro, un entorno virtual altamente realista podría cambiar nuestra percepción sobre la conciencia de estos agentes. Por todo lo mencionado, se puede concluir de que no es apropiado considerar a los agentes conversacionales basados en grandes modelos de lenguaje como entidades conscientes.
+
+### Ejercio 2.b
+
+Atribuir conciencia y derechos morales a los agentes de IA avanzados puede acarrear diversas y profundas consecuencias en nuestra sociedad. En primer lugar, existe el riesgo de una antropomorfización injustificada. Esto significa que podríamos empezar a ver a estos agentes de IA como equivalentes a los humanos simplemente porque son capaces de replicar algunas de nuestras acciones o conductas. Sin embargo, este paralelismo puede ser engañoso, ya que, a pesar de su avanzada capacidad de imitación, carecen de las experiencias y los sentimientos humanos que fundamentan la conciencia real.
+
+Otra consecuencia importante es la posibilidad de que se priorice el bienestar de las IA sobre el de otros seres humanos. Si empezamos a considerar a los agentes de IA como entidades conscientes y merecedoras de derechos, podríamos desviar recursos y atención de las necesidades humanas hacia el mantenimiento y mejora de estos agentes. Este escenario podría crear dilemas éticos y sociales, especialmente en contextos donde los recursos son limitados.
+
+Además, el texto sugiere un futuro en el que las relaciones humanas podrían volverse secundarias frente a la preferencia por la compañía de agentes de IA. Esto podría ocurrir si las interacciones con la IA se perciben como más seguras, controlables o satisfactorias que las interacciones con otros humanos. Tal tendencia podría llevar a un aislamiento social significativo, donde la interacción humana directa se vea reducida, afectando la naturaleza de nuestras relaciones y el tejido social en su conjunto.
+
 ## Ejercicio 3 - You Are Not a Parrot
 
 "No eres un loro", es una de las principales preocupaciones de Emily M. Bender. La linguista, deja en claro su preocupacion y su postura en dicho articulo. Recalca la importancia de observar la distincion de los humanos, junto con la humanidad que poseemos, contra a lo que ella llama "loros". Además, toca los temas de la importancia del controlor del desarrollo de las IA, y como la falta del mismo podria desencadenar en varios problemas etico-legales.

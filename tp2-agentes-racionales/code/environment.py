@@ -9,12 +9,12 @@ class Cell:
     
 
 class Environment:
-  def __init__(self, sizeX, sizeY, initPosX, initPosY, dirtRate):
+  def __init__(self, sizeX, sizeY, dirtRate, initPosX=None, initPosY=None ):
     self.room = [[Cell(dirtRate) for i in range(sizeX)] for j in range(sizeY)]
-    self.sizeX = sizeX
+    self.sizeX = sizeX 
     self.sizeY = sizeY
-    self.initPosX = initPosX
-    self.initPosY = initPosY
+    self.initPosX = initPosX if initPosX is not None else random.randint(0,sizeX-1)
+    self.initPosY = initPosY if initPosY is not None else random.randint(0,sizeY-1)
     self.dirtyCells = 0
     self.cleanCells = 0
 

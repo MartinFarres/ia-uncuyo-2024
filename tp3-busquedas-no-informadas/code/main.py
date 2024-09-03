@@ -1,13 +1,14 @@
 from map import Map
 from gymnasium import wrappers
 from bfs import BfsAgent
+from dfs import DfsAgent
 
-map = Map(50, 0.8)
+map = Map(5, 0.8, seed=12664)
 nuevoLimite = 100
 env = wrappers.TimeLimit(map.env, nuevoLimite)
 
 state = env.reset()
-agent = BfsAgent(map)
+agent = DfsAgent(map, maxDepth=10)
 print(agent.actionsList)
 done = truncated = False
 while not (done or truncated):

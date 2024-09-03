@@ -1,15 +1,16 @@
 from map import Map
+from gymnasium import wrappers
+from bfs import BfsAgent
 
-map = Map(5, 0.9)
-env = map.env
+map = Map(50, 0.8)
+nuevoLimite = 100
+env = wrappers.TimeLimit(map.env, nuevoLimite)
 
 state = env.reset()
-print("Posicion inicial del agente:", state[0])
+agent = BfsAgent(map)
+print(agent.actionsList)
 done = truncated = False
 while not (done or truncated):
-  action = env.action_space.sample() # Accion aleatoria
+  action = agent.actionsList.pop(0)
   next_state, reward, done, truncated, _ = env.step(action)
-  print(f"Accion: {action}, Nuevo estado: {next_state}, Recompensa: {reward}")
-  print(f"¿Gano? (encontro el objetivo): {done}")
-  print(f"¿Freno? (alcanzo el maximo de pasos posible): {truncated}\n")
   state = next_state

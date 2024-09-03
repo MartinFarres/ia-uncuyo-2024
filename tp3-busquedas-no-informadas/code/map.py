@@ -37,7 +37,6 @@ class Map:
     board[self.startPos[0]][self.startPos[1]] = "S"
     board[self.goalPos[0]][self.goalPos[1]] = "G"
 
-    print(["".join(x) for x in board])
     return ["".join(x) for x in board]
   
   

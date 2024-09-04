@@ -12,8 +12,9 @@ class Map:
     self.startPos: Tuple[int,int]
     self.goalPos: Tuple[int,int]
     self.startPos, self.goalPos = self.generateRandomPositions()
-    self.desc = self.generateMap()
-    self.env = gym.make("FrozenLake-v1",desc=self.desc, is_slippery=isSlippery, render_mode="human")
+    self.desc = [[]]
+    self.generateMap()
+    self.env = gym.make("FrozenLake-v1",desc=self.desc, is_slippery=isSlippery)
 
   def generateRandomPositions(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
         np_random, _ = seeding.np_random(self.seed) 
@@ -37,9 +38,9 @@ class Map:
     board[self.startPos[0]][self.startPos[1]] = "S"
     board[self.goalPos[0]][self.goalPos[1]] = "G"
 
-    res = ["".join(x) for x in board]
+    self.desc = ["".join(x) for x in board]
 
-    return res
+    return
   
   
  

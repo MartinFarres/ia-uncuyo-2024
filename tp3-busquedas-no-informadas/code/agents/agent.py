@@ -3,12 +3,13 @@ from typing import Dict, Tuple
 from map import Map
 
 class Agent:
-  def __init__(self, lives:int = 1000):
+  def __init__(self, lives:int = 99999, costByAction:bool = False ):
     self.actionDict:Dict[Tuple[int,int], Tuple[int,Tuple[int,int]]] = dict()
     self.actionsFunctions = [self.moveLeft, self.moveDown, self.moveRight, self.moveUp]
     self.actionsList = []
     self.lives = lives
     self.explored = set()
+    self.costByAction = costByAction
 
   @abstractmethod
   def searchAlgorithm(self, map: Map):
@@ -17,8 +18,7 @@ class Agent:
   def setActionsList(self, map: Map):
     # If goal not achieved
     if map.goalPos not in self.actionDict:
-        print("Goal position not found in actionDict.")
-        return
+      return
     
     pos = map.goalPos
     
@@ -41,20 +41,19 @@ class Agent:
     
 
 
-  def calculateCost(self, byAction=False):
+  def calculateCost(self):
     # When each action costs 1
-    if not byAction:
-        return len(self.actionsList)
+    if not self.costByAction:
+      return len(self.actionsList)
     
     # When each action costs 1 + action index
-    return sum([1 + action for action in self.actionsList])
+    return len(self.actionsList) + sum(self.actionsList)
   
   
   def moveUp(self, map: Map, startPos: Tuple[int, int]) -> Tuple[int, int]:
     if startPos[0] > 0:
         newPos = (startPos[0]-1, startPos[1])
         if map.desc[newPos[0]][newPos[1]] != "H":
-            # print(map.desc[newPos[0]][newPos[1]])
             return newPos
     return ()
 
@@ -62,7 +61,6 @@ class Agent:
     if startPos[0] < (map.size - 1):
         newPos = (startPos[0]+1, startPos[1])
         if map.desc[newPos[0]][newPos[1]] != "H":
-            # print(map.desc[newPos[0]][newPos[1]])
             return newPos
     return ()
 
@@ -70,7 +68,6 @@ class Agent:
     if startPos[1] > 0:
         newPos = (startPos[0], startPos[1]-1)
         if map.desc[newPos[0]][newPos[1]] != "H":
-            # print(map.desc[newPos[0]][newPos[1]])
             return newPos
     return ()
 
@@ -78,6 +75,5 @@ class Agent:
     if startPos[1] < (map.size - 1):
         newPos = (startPos[0] , startPos[1]+1)
         if map.desc[newPos[0]][newPos[1]] != "H":
-            # print(map.desc[newPos[0]][newPos[1]])
             return newPos
     return ()

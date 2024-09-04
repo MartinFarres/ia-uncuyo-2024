@@ -4,14 +4,14 @@ from agent import Agent
 from map import Map
 
 class DfsAgent(Agent):
-    def __init__(self, map: Map, maxDepth: int = None):
+    def __init__(self, map: Map, maxDepth: int = 10000):
         super().__init__()
         self.frontier: deque[Tuple[int, int]] = deque([map.startPos])  # Initialize with agent start pos
         self.maxDepth = maxDepth
 
     def searchAlgorithm(self, map: Map):
         depth = 0
-        while self.frontier and self.lives > 0:
+        while len(self.frontier) > 0 and self.lives > 0:
             nodeToExamine = self.frontier.pop()  # Efficient pop from the left
             
             self.explored.add(nodeToExamine)
@@ -23,13 +23,12 @@ class DfsAgent(Agent):
                         depth += 1
                         if depth > self.maxDepth:
                           continue
-                        print(depth)
                         self.actionDict[nodeChild] = (action_idx, nodeToExamine)
                         if nodeChild == map.goalPos:
                             break
                         self.frontier.append(nodeChild)  # Efficient append to the right
                 else: 
-                              depth -= 1
+                    depth -= 1
             
             self.lives -= 1
         self.setActionsList(map)

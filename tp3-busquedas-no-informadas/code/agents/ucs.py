@@ -1,11 +1,11 @@
-from typing import Tuple
+from typing import Optional, Tuple
 from queue import PriorityQueue
 from agent import Agent
 from map import Map
 
 class UcsAgent(Agent):
-    def __init__(self, map: Map):
-        super().__init__()
+    def __init__(self, map: Map, costByAction:bool = False):
+        super().__init__(costByAction=costByAction)
         self.frontier: PriorityQueue[Tuple[int, Tuple[int, int]]] = PriorityQueue()
         self.frontierSet = set()
         self.frontier.put((0,map.startPos))  # Initialize with agent start pos

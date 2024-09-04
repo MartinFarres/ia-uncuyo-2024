@@ -9,7 +9,7 @@ class BfsAgent(Agent):
         self.frontier: deque[Tuple[int, int]] = deque([map.startPos])  # Initialize with agent start pos
         
     def searchAlgorithm(self, map: Map):
-        while self.frontier and self.lives > 0:
+        while len(self.frontier) > 0 and self.lives > 0:
             nodeToExamine = self.frontier.popleft()  # Efficient pop from the left
             
             self.explored.add(nodeToExamine)

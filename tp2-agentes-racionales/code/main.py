@@ -20,7 +20,6 @@ def iteration(env:Environment, agent:Agent):
   return i
 
 
-# if __name__ == "__main__":
   
 
 

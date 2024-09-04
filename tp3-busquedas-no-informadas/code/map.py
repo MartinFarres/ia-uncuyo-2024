@@ -39,8 +39,6 @@ class Map:
 
     res = ["".join(x) for x in board]
 
-    print(res)
-
     return res
   
   

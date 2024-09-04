@@ -39,8 +39,9 @@ def runAgent(map:Map, agent: Agent):
     #     next_state, reward, done, truncated, info = env.step(action)
     #     state = next_state
     env.close()
-
+    response = {"totalCost": agent.calculateCost(), 
+            "exploredNodes": len(agent.explored), "timeTaken": endTime}
+    agent.reset()
 
     # Return the results
-    return {"totalCost": agent.calculateCost(), 
-            "exploredNodes": len(agent.explored), "timeTaken": endTime}
+    return response

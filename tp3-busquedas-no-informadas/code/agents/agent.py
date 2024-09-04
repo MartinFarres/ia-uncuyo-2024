@@ -15,6 +15,20 @@ class Agent:
   def searchAlgorithm(self, map: Map):
     ...
 
+  def reset(self):
+        """Reset the agent to its initial state."""
+        self.actionDict.clear()
+        self.actionsList = []
+        self.lives = 99999  # Default value for lives
+        self.explored.clear()
+
+  def reset(self):
+        """Reset the agent to its initial state."""
+        self.actionDict.clear()
+        self.actionsList = []
+        self.lives = 99999  # Default value for lives
+        self.explored.clear()
+
   def setActionsList(self, map: Map):
     # If goal not achieved
     if map.goalPos not in self.actionDict:

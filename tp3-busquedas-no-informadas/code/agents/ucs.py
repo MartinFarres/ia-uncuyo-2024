@@ -32,3 +32,6 @@ class UcsAgent(Agent):
 
             self.lives -= 1
         self.setActionsList(map)
+        self.frontier.empty()
+        self.frontierSet.clear()
+        

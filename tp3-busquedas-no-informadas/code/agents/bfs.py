@@ -25,3 +25,4 @@ class BfsAgent(Agent):
 
             self.lives -= 1
         self.setActionsList(map)
+        self.frontier.clear()

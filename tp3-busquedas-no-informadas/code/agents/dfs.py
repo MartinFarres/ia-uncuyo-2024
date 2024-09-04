@@ -6,7 +6,6 @@ from map import Map
 class DfsAgent(Agent):
     def __init__(self, map: Map, maxDepth: int = 10000):
         super().__init__()
-        self.explore = set()
         self.frontier: deque[Tuple[int, int]] = deque([map.startPos])  # Initialize with agent start pos
         self.maxDepth = maxDepth
 
@@ -33,4 +32,5 @@ class DfsAgent(Agent):
             
             self.lives -= 1
         self.setActionsList(map)
+        self.frontier.clear()
         

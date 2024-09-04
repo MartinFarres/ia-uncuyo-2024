@@ -6,13 +6,10 @@ from map import Map
 class BfsAgent(Agent):
     def __init__(self, map: Map):
         super().__init__()
-        self.explored = set()
         self.frontier: deque[Tuple[int, int]] = deque([map.startPos])  # Initialize with agent start pos
-        self.bfsFunction(map)
-        self.setActionsList(map)
         
-    def bfsFunction(self, map: Map):
-        while self.frontier:
+    def searchAlgorithm(self, map: Map):
+        while self.frontier and self.lives > 0:
             nodeToExamine = self.frontier.popleft()  # Efficient pop from the left
             
             self.explored.add(nodeToExamine)
@@ -26,3 +23,5 @@ class BfsAgent(Agent):
                             break
                         self.frontier.append(nodeChild)  # Efficient append to the right
 
+            self.lives -= 1
+        self.setActionsList(map)

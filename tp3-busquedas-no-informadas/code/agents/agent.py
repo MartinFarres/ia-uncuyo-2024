@@ -1,11 +1,18 @@
+from abc import abstractmethod
 from typing import Dict, Tuple
 from map import Map
 
 class Agent:
-  def __init__(self):
+  def __init__(self, lives:int = 1000):
     self.actionDict:Dict[Tuple[int,int], Tuple[int,Tuple[int,int]]] = dict()
     self.actionsFunctions = [self.moveLeft, self.moveDown, self.moveRight, self.moveUp]
     self.actionsList = []
+    self.lives = lives
+    self.explored = set()
+
+  @abstractmethod
+  def searchAlgorithm(self, map: Map):
+    ...
 
   def setActionsList(self, map: Map):
     # If goal not achieved

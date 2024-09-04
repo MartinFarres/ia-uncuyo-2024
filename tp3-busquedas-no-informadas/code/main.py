@@ -1,17 +1,33 @@
+import time
 from map import Map
 from gymnasium import wrappers
-from bfs import BfsAgent
-from dfs import DfsAgent
-from ucs import UcsAgent
+from agent import Agent
 
-map = Map(50, 0.8, seed=1554)
-nuevoLimite = 100
-env = wrappers.TimeLimit(map.env, nuevoLimite)
+def main(map:Map, agent:Agent):
+  # Env Definitions & Clean sleet
+  nuevoLimite = 100
+  env = wrappers.TimeLimit(map.env, nuevoLimite)
+  state = env.reset()
+  
+  # Get Time
+  startTime = time.time()
+  agent.searchAlgorithm(map)
+  endTime = time.time() - startTime
 
-state = env.reset()
-agent = UcsAgent(map)
-done = truncated = False
-while not (done or truncated):
-  action = agent.actionsList.pop(0)
-  next_state, reward, done, truncated, _ = env.step(action)
-  state = next_state
+  # Print
+  if(len(agent.actionsList)) > 0:
+    print("Action List: ", agent.actionsList)
+    print("Explored Node: ", len(agent.explored))
+    print("Time Taken: ", endTime)
+  else:
+    print("Goal not achived")
+
+  # UI
+  done = truncated = False
+  while not (done or truncated):
+    try:
+      action = agent.actionsList.pop(0)
+    except Exception as err:  # Catch all exceptions
+      raise Exception(f"An error occurred: {err}")
+    next_state, done, truncated, _ = env.step(action)
+    state = next_state

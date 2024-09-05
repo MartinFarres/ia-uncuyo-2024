@@ -11,9 +11,10 @@ class Map:
     self.seed = seed
     self.startPos: Tuple[int,int]
     self.goalPos: Tuple[int,int]
-    self.startPos, self.goalPos = self.generateRandomPositions()
+    self.generateRandomPositions()
     self.desc = [[]]
     self.generateMap()
+    self.isSlippery = isSlippery
     self.env = gym.make("FrozenLake-v1",desc=self.desc, is_slippery=isSlippery)
 
   def generateRandomPositions(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
@@ -22,9 +23,10 @@ class Map:
         goalPos = startPos
         while goalPos == startPos: # Ensures goalPos != startPos
             goalPos = (np_random.integers(0, self.size), np_random.integers(0, self.size))
-        return startPos, goalPos
+        self.startPos, self.goalPos =  startPos, goalPos
+        return
   
-  def generateMap(self)->List[str]:
+  def generateMap(self):
     board = [] # Initialize board
 
     # Set np_random with seed
@@ -40,6 +42,12 @@ class Map:
 
     self.desc = ["".join(x) for x in board]
 
+    return
+  
+  def generateNewMap(self):
+    self.generateRandomPositions()
+    self.generateMap()
+    self.env = gym.make("FrozenLake-v1",desc=self.desc, is_slippery=self.isSlippery)
     return
   
   

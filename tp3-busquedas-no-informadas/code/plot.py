@@ -6,7 +6,7 @@ sys.path.append('./agents')
 from bfs import BfsAgent
 from dfs import DfsAgent
 from ucs import UcsAgent
-from map import Map
+from map import Map 
 from runAgent import runAgent
 
 def generateBoxPlot():
@@ -52,8 +52,8 @@ def generateBoxPlot():
         plt.show()
 
 def getData() -> Dict[str, List[List[int]]]:
-    map = Map(100, 0.92)  # Only for instancing the agents
-    agents = [BfsAgent(map), DfsAgent(map), DfsAgent(map, 10), UcsAgent(map), UcsAgent(map, costByAction=True)]
+    map = Map(100, 0.92)  # instance for runAgent()
+    agents = [BfsAgent(), DfsAgent(), DfsAgent( 10), UcsAgent(), UcsAgent(costByAction=True)]
 
     totalCostArr: List[List[int]] = [[] for _ in range(len(agents))]
     exploredNodesArr: List[List[int]] = [[] for _ in range(len(agents))]
@@ -63,7 +63,8 @@ def getData() -> Dict[str, List[List[int]]]:
     for idx, agent in enumerate(agents):
         for _ in range(30):
             response = runAgent(map, agent)
-
+           
+            print(response)
             if response:
                 totalCost = response.get("totalCost", 0)
                 exploredNodes = response.get("exploredNodes", 0)

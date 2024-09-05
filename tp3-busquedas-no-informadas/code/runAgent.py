@@ -9,7 +9,8 @@ from dfs import DfsAgent
 # Recommendation: Comment Print & UI sections for bulk runs 
 def runAgent(map:Map, agent: Agent):
     # Env Definitions & Clean state
-    map.generateMap()
+    map.generateNewMap()
+    agent.reset()
     # nuevoLimite = 1000
     # env = wrappers.TimeLimit(map.env, nuevoLimite)
     env = map.env
@@ -41,7 +42,8 @@ def runAgent(map:Map, agent: Agent):
     env.close()
     response = {"totalCost": agent.calculateCost(), 
             "exploredNodes": len(agent.explored), "timeTaken": endTime}
-    agent.reset()
+    
+
 
     # Return the results
     return response

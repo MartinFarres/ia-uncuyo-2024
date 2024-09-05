@@ -13,7 +13,7 @@ class UcsAgent(Agent):
         frontierSet = set()
         frontier.put((0,map.startPos))  # Initialize with agent start pos
         frontierSet.add(map.startPos)
-        while not frontier.empty() and self.lives > 0:
+        while not frontier.empty() :
             nodePriority, nodeToExamine = frontier.get()  
             frontierSet.remove(nodeToExamine)
             self.explored.add(nodeToExamine)
@@ -32,7 +32,5 @@ class UcsAgent(Agent):
                         frontier.put((nodePriority + action_idx, nodeChild))  # Efficient append to the right
                         frontierSet.add(nodeChild)
 
-            self.lives -= 1
-        self.setActionsList(map)
     
 

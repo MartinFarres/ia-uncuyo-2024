@@ -44,5 +44,6 @@ def runAgent(map: Map, agent: Agent):
 
     # Return the results
     response = {"totalCost": agent.calculateCost(),
-                "exploredNodes": len(agent.explored), "timeTaken": endTime}
+                "exploredNodes": len(agent.explored), "timeTaken": endTime,
+                "solutionFound": len(agent.actionsList) > 0, "envSeed": map.seed}
     return response

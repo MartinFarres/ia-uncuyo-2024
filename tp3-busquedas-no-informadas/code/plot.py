@@ -1,3 +1,4 @@
+import csv
 from map import Map
 from runAgent import runAgent
 from ucs import UcsAgent
@@ -11,15 +12,53 @@ import sys
 sys.path.append('./agents')
 
 
-def test():
-    map = Map(20, 0.75)
-    agent = AStarAgent()
-    runAgent(map, agent)
-
-
-def generateBoxPlot():
+def getGraphsAndTable():
     # Get Data
     dataObject: Dict[str, List[List[int]]] = getData()
+    generateCSV(dataObject)
+    generateBoxPlot(dataObject)
+
+
+def generateCSV(data):
+
+    # Nombres de los algoritmos
+    algorithms = ['BFS', 'DFS', 'DFS (limit 10)', 'UCS', 'UCS (cost)', 'A*']
+    csv_file = 'informada-results.csv'
+
+    # Abre el archivo CSV para escribir los datos
+    with open(csv_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+
+        # Escribe los encabezados del CSV
+        writer.writerow([
+            'algorithm_name', 'env_n', 'states_n',
+            'cost_e1', 'cost_e2', 'time', 'solution_found'
+        ])
+
+        # Recorre los datos de cada algoritmo
+        for idx, algorithm in enumerate(algorithms):
+            # Para cada entorno generado aleatoriamente (hay 30)
+            for env_n in range(30):
+                totalCost = data["totalCost"][idx][env_n]
+                exploredNodes = data["exploredNodes"][idx][env_n]
+                timeTaken = data["timeTaken"][idx][env_n]
+                solutionFound = data["solutionFound"][idx][env_n]
+
+                # Escribe la fila con los datos en el CSV
+                writer.writerow([
+                    algorithm,           # algorithm_name
+                    env_n + 1,           # env_n (1 a 30)
+                    exploredNodes,       # states_n
+                    # cost_e1 (coste total del escenario 1)
+                    totalCost,
+                    # cost_e2 (coste total del escenario 2)
+                    totalCost,
+                    timeTaken,           # time
+                    solutionFound        # solution_found
+                ])
+
+
+def generateBoxPlot(dataObject):
 
     # List of keys to iterate through
     keys = ["totalCost", "exploredNodes", "timeTaken"]
@@ -72,6 +111,8 @@ def getData() -> Dict[str, List[List[int]]]:
     totalCostArr: List[List[int]] = [[] for _ in range(len(agents))]
     exploredNodesArr: List[List[int]] = [[] for _ in range(len(agents))]
     timeTakenArr: List[List[int]] = [[] for _ in range(len(agents))]
+    solutionFoundArr: List[List[int]] = [[] for _ in range(len(agents))]
+    envSeedArr: List[List[int]] = [[] for _ in range(len(agents))]
 
     # 30 iterations per Agent in new random 100x100 Map
     for idx, agent in enumerate(agents):
@@ -79,16 +120,22 @@ def getData() -> Dict[str, List[List[int]]]:
             response = runAgent(map, agent)
 
             if response:
-                totalCost = response.get("totalCost", 0)
-                exploredNodes = response.get("exploredNodes", 0)
-                timeTaken = response.get("timeTaken", 0)
+                totalCost = response.get("totalCost")
+                exploredNodes = response.get("exploredNodes")
+                timeTaken = response.get("timeTaken")
+                solutionFound = response.get("solutionFound")
+                envSeed = response.get("envSeed")
                 totalCostArr[idx].append(totalCost)
                 exploredNodesArr[idx].append(exploredNodes)
                 timeTakenArr[idx].append(timeTaken)
+                solutionFoundArr[idx].append(solutionFound)
+                envSeedArr[idx].append(envSeed)
 
     # Return a dictionary with all the data
     return {
         "totalCost": totalCostArr,
         "exploredNodes": exploredNodesArr,
-        "timeTaken": timeTakenArr
+        "timeTaken": timeTakenArr,
+        "solutionFound": solutionFoundArr,
+        "envSeed": envSeedArr
     }

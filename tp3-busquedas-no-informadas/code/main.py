@@ -1,6 +1,6 @@
-from plot import generateBoxPlot, test
+from plot import getGraphsAndTable
 
 # Generates Plots
 if __name__ == "__main__":
-    generateBoxPlot()
+    getGraphsAndTable()
     # test()

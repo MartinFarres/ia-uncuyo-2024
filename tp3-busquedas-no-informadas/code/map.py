@@ -9,7 +9,7 @@ class Map:
     def __init__(self, size: int, p: float, isSlippery: Optional[bool] = False, seed: Optional[int] = None, render=False) -> None:
         self.size = size
         self.p = p
-        self.seed = seed
+        self.np_random, self.seed = seeding.np_random(seed)
         self.startPos: Tuple[int, int]
         self.goalPos: Tuple[int, int]
         self.generateRandomPositions()
@@ -21,13 +21,13 @@ class Map:
                             is_slippery=isSlippery, render_mode=self.render)
 
     def generateRandomPositions(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
-        np_random, _ = seeding.np_random(self.seed)
-        startPos = (np_random.integers(0, self.size),
-                    np_random.integers(0, self.size))
+
+        startPos = (self.np_random.integers(0, self.size),
+                    self.np_random.integers(0, self.size))
         goalPos = startPos
         while goalPos == startPos:  # Ensures goalPos != startPos
-            goalPos = (np_random.integers(0, self.size),
-                       np_random.integers(0, self.size))
+            goalPos = (self.np_random.integers(0, self.size),
+                       self.np_random.integers(0, self.size))
         self.startPos, self.goalPos = startPos, goalPos
         return
 
@@ -35,11 +35,10 @@ class Map:
         board = []  # Initialize board
 
         # Set np_random with seed
-        np_random, _ = seeding.np_random(self.seed)
 
         # Creates Desc
         self.p = min(1, self.p)
-        board = np_random.choice(
+        board = self.np_random.choice(
             ["F", "H"], (self.size, self.size), p=[self.p, 1 - self.p])
 
         # Set random start pos & goal pos

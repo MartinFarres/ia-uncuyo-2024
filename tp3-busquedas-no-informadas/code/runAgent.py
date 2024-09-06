@@ -1,15 +1,16 @@
+from map import Map
+from agents.agent import Agent
 import time
 import sys
 sys.path.append('./agents')
-from agent import Agent
-from map import Map
-from gymnasium import wrappers
-from dfs import DfsAgent
 
-# Recommendation: Comment Print & UI sections for bulk runs 
-def runAgent(map:Map, agent: Agent):
+# Recommendation: Comment Print & UI sections for bulk runs
+
+
+def runAgent(map: Map, agent: Agent):
     # Env Definitions & Clean state
     map.generateNewMap()
+
     agent.reset()
     # nuevoLimite = 1000
     # env = wrappers.TimeLimit(map.env, nuevoLimite)
@@ -20,30 +21,28 @@ def runAgent(map:Map, agent: Agent):
     startTime = time.time()
     agent.searchAlgorithm(map)
     endTime = time.time() - startTime
-    
-    # Print
+
+    # # Print
     # print(map.desc)
     # if len(agent.actionsList) > 0:
-    #     print("Action List: ", agent.actionsList)
-    #     print("Explored Node: ", len(agent.explored))
-    #     print("Time Taken: ", endTime)
+    #     response = {"totalCost": agent.calculateCost(),
+    #                 "exploredNodes": len(agent.explored), "timeTaken": endTime}
     # else:
     #     print("Goal not achieved")
 
     # UI
+    # actions = agent.actionsList
     # done = truncated = False
     # while not (done or truncated):
     #     try:
-    #         action = agent.actionsList.pop(0)
+    #         action = actions.pop()
     #     except Exception as err:  # Catch all exceptions
-    #         raise Exception(f"An error occurred: {err}")
+    #         break
     #     next_state, reward, done, truncated, info = env.step(action)
     #     state = next_state
-    env.close()
-    response = {"totalCost": agent.calculateCost(), 
-            "exploredNodes": len(agent.explored), "timeTaken": endTime}
-    
-
+    # env.close()
 
     # Return the results
+    response = {"totalCost": agent.calculateCost(),
+                "exploredNodes": len(agent.explored), "timeTaken": endTime}
     return response

@@ -13,7 +13,6 @@ class DfsAgent(Agent):
         # Inicializar la frontera con el nodo inicial
         frontier: Deque[Tuple[int, int]] = deque([(map.startPos, 0)])  # Nodo inicial y profundidad
         frontierAux: Set[Tuple[int, int]] = {map.startPos}  # Conjunto auxiliar para evitar duplicados
-        parentDict: Dict[Tuple[int, int], Tuple[int, int]] = {map.startPos: None}  # Diccionario de padres
         self.explored: Set[Tuple[int, int]] = set()  # Nodos completamente explorados
 
         while frontier:
@@ -37,7 +36,6 @@ class DfsAgent(Agent):
 
                     # Si el nodo hijo es válido, no ha sido explorado ni está en la frontera
                     if nodeChild and nodeChild not in self.explored and nodeChild not in frontierAux:
-                        parentDict[nodeChild] = nodeToExamine  # Guardar el nodo padre
                         self.actionDict[nodeChild] = (action_idx, nodeToExamine)  # Registrar la acción y el padre
                         frontier.append((nodeChild, currentDepth + 1))  # Añadir el nodo hijo a la frontera con profundidad incrementada
                         frontierAux.add(nodeChild)  # Añadir el nodo hijo al conjunto auxiliar

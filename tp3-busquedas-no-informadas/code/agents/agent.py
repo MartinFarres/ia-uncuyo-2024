@@ -4,7 +4,7 @@ from map import Map
 
 
 class Agent:
-    def __init__(self, lives: int = 2000, costByAction: bool = False):
+    def __init__(self, lives: int = 1000):
         self.actionDict: Dict[Tuple[int, int],
                               Tuple[int, Tuple[int, int]]] = dict()
         self.actionsFunctions = [self.moveLeft,
@@ -12,7 +12,6 @@ class Agent:
         self.actionsList = []
         self.lives = lives
         self.explored = set()
-        self.costByAction = costByAction
 
     @abstractmethod
     def searchAlgorithm(self, map: Map):
@@ -22,7 +21,7 @@ class Agent:
         """Reset the agent to its initial state."""
         self.actionDict.clear()
         self.actionsList = []
-        self.lives = 2000  # Default value for lives
+        self.lives = 1000  # Default value for lives
         self.explored.clear()
 
     def setActionsList(self, map: Map):
@@ -35,7 +34,8 @@ class Agent:
         # Goal achieved
         while pos != map.startPos:  # Init position
             if self.lives == 0:
-                return []
+                self.actionsList = []
+                break
             self.lives -= 1
             # Action to get here & Parent Pos
             movementValue = self.actionDict[pos]
@@ -51,9 +51,9 @@ class Agent:
         # Reverse the actions list to get the correct order from start to goal
         self.actionsList.reverse()
 
-    def calculateCost(self):
+    def calculateCost(self, costByAction=False):
         # When each action costs 1
-        if not self.costByAction:
+        if not costByAction:
             return len(self.actionsList)
 
         # When each action costs 1 + action index

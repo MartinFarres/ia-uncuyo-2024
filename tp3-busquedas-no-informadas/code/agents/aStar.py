@@ -5,8 +5,8 @@ from map import Map
 
 
 class AStarAgent(Agent):
-    def __init__(self, costByAction: bool = False, costByManhattan: bool = True):
-        super().__init__(costByAction=costByAction)
+    def __init__(self, costByManhattan: bool = True):
+        super().__init__()
         self.costByManhattan = costByManhattan
 
     def searchAlgorithm(self, map: Map):

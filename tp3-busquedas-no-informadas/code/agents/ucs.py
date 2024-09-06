@@ -6,7 +6,7 @@ from map import Map
 
 class UcsAgent(Agent):
     def __init__(self, costByAction: bool = False):
-        super().__init__(costByAction=costByAction)
+        super().__init__()
 
     def searchAlgorithm(self, map: Map):
         frontier: PriorityQueue[Tuple[int, Tuple[int, int]]] = PriorityQueue()

@@ -2,9 +2,13 @@ from random import randint
 
 
 class Environment:
-    def __init__(self, size) -> None:
+    def __init__(self, size, env: list[int] = None) -> None:
         self.size = size
-        self.env = [randint(0, size-1) for _ in range(size)]
+        self.env = [randint(0, size-1)
+                    for _ in range(size)] if env is None else env
+        self.value = pairQueensInCheck(self.size, self.env)
+
+    def updateValue(self):
         self.value = pairQueensInCheck(self.size, self.env)
 
 

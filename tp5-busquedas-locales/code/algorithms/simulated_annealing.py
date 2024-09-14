@@ -1,12 +1,12 @@
 import math
 import time
-from environment import pairQueensInCheck
+from environment import pairQueensInCheck, Environment
 from random import randint, random
 
 # Nunca baja de 1-2    ¯\_ (ツ)_/¯
 
 
-def simulatedAnnealing(env, maxStates=10000, initialTemp=100, coolingRate=0.95) -> list[int]:
+def simulatedAnnealing(env: Environment, maxStates=10000, initialTemp=100, coolingRate=0.95) -> Environment:
     bestValue = env.value
     bestEnv = env.env
 

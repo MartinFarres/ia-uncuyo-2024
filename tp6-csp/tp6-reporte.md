@@ -104,3 +104,19 @@ Dado que hemos logrado la 2-consistencia, sabemos que para cualquier variable Xk
 Por lo tanto, hemos demostrado que para cualquier variable Xi en el CSP, cualquier valor en su dominio es consistente con al menos un valor en el dominio de cada otra variable en el CSP, siguiendo el único camino en el árbol de restricciones.
 
 Este resultado es suficiente porque, en un CSP, el objetivo es encontrar una asignación que cumpla con todas las restricciones. Si hemos logrado que todas las variables sean consistentes entre sí, hemos eliminado cualquier conflicto y hemos asegurado que existe una solución que satisface todas las restricciones. Esto es fundamental para la correctitud del algoritmo CSP en árboles estructurados, ya que garantiza que si una solución existe, el algoritmo la encontrará.
+
+### 6-7 - Analisis de Resultados
+
+En estos ejercicios se implementaron los algoritmos de Backtracking y Forward Checking para resolver el problema de las N-reinas, considerando tableros de tamaño 4, 8, 10, 12 y 15. En ambos algoritmos, la evaluación de soluciones comienza desde la columna 0, fila 0 de cada tablero.
+
+#### Cantidad de Estados Explorados
+
+![estadosExplorados](./image/comparacionEstados.png)
+Forward Checking explora significativamente menos estados que Backtracking, independientemente del tamaño del tablero. Esto se debe a la capacidad de Forward Checking para reducir el dominio de posibles ubicaciones, eliminando aquellas que no cumplen con las restricciones del problema en función de cada movimiento realizado. Por otro lado, Backtracking prueba todas las combinaciones posibles, sin reducir el dominio.
+
+#### Tiempos de Ejecución
+
+![tiempos](./image/tiempo.png)
+Podemos observar que Forward Checking requiere mucho menos tiempo para encontrar la solución debido a la menor cantidad de estados explorados.
+
+Además, al comparar Forward Checking con otros algoritmos como Hill Climbing, Simulated Annealing y Genetic Algorithm, se destaca que Forward Checking ofrece el mejor rendimiento. Esto se debe a que en el problema de N-reinas, al conocer de antemano las restricciones, se puede encontrar una solución de manera determinista. En contraste, los algoritmos anteriores tendían a quedar atrapados en óptimos locales, como se observó en el TP5. Forward Checking garantiza siempre encontrar una solución.

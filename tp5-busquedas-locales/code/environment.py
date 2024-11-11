@@ -7,6 +7,7 @@ class Environment:
         self.env = [randint(0, size-1)
                     for _ in range(size)] if env is None else env
         self.value = pairQueensInCheck(self.size, self.env)
+        self.states_explored = 0
 
     def updateValue(self):
         self.value = pairQueensInCheck(self.size, self.env)

@@ -2,7 +2,7 @@ from environment import Environment
 from random import randint, random
 
 
-def geneticAlgorithm(popSize: int = 100, envSize: int = 8, maxGenerations=100) -> Environment:
+def geneticAlgorithm(popSize: int = 100, envSize: int = 15, maxGenerations=100) -> Environment:
     # Generates Population
     currentPop = generatePop(popSize, envSize)
 
@@ -31,6 +31,8 @@ def geneticAlgorithm(popSize: int = 100, envSize: int = 8, maxGenerations=100) -
             # Check for global minima
             if child.value == 0:
                 print(f"Global minima found in generation {generation}")
+                # Set the number of generations explored
+                child.states_explored = generation + 1
                 return child
 
             newPop.append(child)
@@ -38,8 +40,11 @@ def geneticAlgorithm(popSize: int = 100, envSize: int = 8, maxGenerations=100) -
         # Advances Population
         currentPop = newPop
 
-    # Return the best individual found
-    return min(currentPop, key=lambda env: env.value)
+    # Return the best individual found if no global minima was found
+    res = min(currentPop, key=lambda env: env.value)
+    # Set the total number of generations explored
+    res.states_explored = maxGenerations
+    return res
 
 
 def reproduce(xIndividual: Environment, yIndividual: Environment) -> Environment:
@@ -54,7 +59,7 @@ def reproduce(xIndividual: Environment, yIndividual: Environment) -> Environment
 
 
 def randomSelection(currentPop: list[Environment], envSize) -> Environment:
-    # Max value of non attacking pairs / when h = 0
+    # Max value of non-attacking pairs / when h = 0
     maxValue = envSize*(envSize-1) / 2
 
     # Calculate sum of values

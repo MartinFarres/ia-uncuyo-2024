@@ -1,0 +1,10 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.analysis.extraPaths": [
+    "./tp3-busquedas-no-informadas/code/agents",
+    "./tp3-busquedas-no-informadas/code",
+    "./tp5-busquedas-locales/code"
+  ]
+}

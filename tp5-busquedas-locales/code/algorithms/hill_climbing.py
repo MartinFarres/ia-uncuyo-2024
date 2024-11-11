@@ -24,5 +24,5 @@ def hillClimbing(env, maxStates=1000) -> list[int]:
                         env.env, env.value = currentEnv, currentValue
                         return env
 
-        env.env, env.value = currentEnv, currentValue
+        env.env, env.value, env.states_explored = currentEnv, currentValue, states
     return env

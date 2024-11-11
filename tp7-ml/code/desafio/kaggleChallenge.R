@@ -1,102 +1,151 @@
-# Cargar librerías
-library(tidyverse)
+# Cargar librerías necesarias
+library(dplyr)
+library(DMwR)
+library(ROSE)
+library(randomForest)
+library(e1071)
 library(caret)
 library(pROC)
-library(xgboost)
-library(doParallel)
 
-# Configurar paralelismo
-registerDoParallel(cores = detectCores() - 1)
+# Filtra las especies raras en el dataset
+remove_rare_species <- function(data, min_count = 100) {
+  species_counts <- data %>%
+    count(especie) %>%
+    filter(n >= min_count)
+  
+  filtered_data <- data %>%
+    filter(especie %in% species_counts$especie)
+  
+  return(filtered_data)
+}
 
-# Cargar los datos
-train_set <- read.csv("tp7-ml/code/desafio/arbolado-mza-dataset.csv")
-test_data <- read.csv("tp7-ml/code/desafio/arbolado-mza-dataset-test.csv")
+# Realiza oversampling usando SMOTE o ROSE
+# Función para realizar oversampling con variables categóricas
+perform_oversampling <- function(data, method = "SMOTE") {
+  data$inclinacion_peligrosa <- as.factor(data$inclinacion_peligrosa)
+  
+  # Convertir variables categóricas en dummy variables (one-hot encoding)
+  dummies_model <- dummyVars(inclinacion_peligrosa ~ ., data = data)
+  data_dummies <- predict(dummies_model, newdata = data) %>% as.data.frame()
+  data_dummies$inclinacion_peligrosa <- data$inclinacion_peligrosa
+  
+  if (method == "SMOTE") {
+    # Aplicar SMOTE
+    balanced_data <- DMwR::SMOTE(inclinacion_peligrosa ~ ., data = data_dummies)
+  } else if (method == "ROSE") {
+    # Aplicar ROSE
+    balanced_data <- ROSE::ovun.sample(
+      inclinacion_peligrosa ~ .,
+      data = data_dummies,
+      method = "over",
+      N = max(2 * nrow(data_dummies), nrow(data_dummies))
+    )$data
+  } else {
+    stop("El método debe ser 'SMOTE' o 'ROSE'")
+  }
+  
+  return(balanced_data)
+}
 
-# Convertir 'inclinacion_peligrosa' a binaria y factor con nombres válidos
-train_set$inclinacion_peligrosa <- factor(train_set$inclinacion_peligrosa, levels = c(0, 1), labels = c("No", "Sí"))
+# Realiza undersampling usando ROSE
+perform_undersampling <- function(data) {
+  data$inclinacion_peligrosa <- as.factor(data$inclinacion_peligrosa)
+  min_class_size <- min(table(data$inclinacion_peligrosa))
+  
+  balanced_data <- ROSE::ovun.sample(
+    inclinacion_peligrosa ~ .,
+    data = data,
+    method = "under",
+    N = 2 * min_class_size
+  )$data
+  
+  return(balanced_data)
+}
 
-# Identificar las variables numéricas en el conjunto de entrenamiento y prueba
-num_vars_train <- names(train_set)[sapply(train_set, is.numeric)]
-num_vars_test <- names(test_data)[sapply(test_data, is.numeric)]
-num_vars_common <- intersect(num_vars_train, num_vars_test)
+# Crea un clasificador Random Forest
+random_forest_classifier <- function(train_data, ntree = 500, mtry = NULL) {
+  train_data$inclinacion_peligrosa <- as.factor(train_data$inclinacion_peligrosa)
+  
+  rf_model <- randomForest(
+    inclinacion_peligrosa ~ altura + circ_tronco_cm + diametro_tronco + especie + seccion,
+    data = train_data,
+    importance = TRUE,
+    ntree = ntree,
+    mtry = mtry
+  )
+  
+  return(rf_model)
+}
 
-# Normalizar variables numéricas
-train_set_numeric <- train_set[, num_vars_common] %>%
-  mutate(across(everything(), ~ ( . - min(.)) / (max(.) - min(.))))
-test_data_numeric <- test_data[, num_vars_common] %>%
-  mutate(across(everything(), ~ ( . - min(train_set_numeric[[cur_column()]])) / (max(train_set_numeric[[cur_column()]]))))
+# Realiza predicciones con el modelo Random Forest
+predict_random_forest <- function(rf_model, validation_data) {
+  predictions_prob <- predict(rf_model, validation_data, type = "prob")
+  
+  result <- data.frame(
+    id = validation_data$id,
+    inclinacion_peligrosa = predictions_prob[, "1"]
+  )
+  
+  return(result)
+}
 
-# Selección de características con RFE
-control <- rfeControl(functions = rfFuncs, method = "cv", number = 5, allowParallel = TRUE)
-features <- rfe(train_set_numeric, train_set$inclinacion_peligrosa, sizes = c(5, 10, 15), rfeControl = control)
-selected_vars <- features$optVariables
+# Entrena el modelo de ensamble con Random Forest y SVM
+train_ensemble_model <- function(datos, target_var, predictors, ntree = 1000, mtry = 5, cost = 20, gamma = 0.1) {
+  datos[[target_var]] <- as.factor(datos[[target_var]])
+  
+  set.seed(2001)
+  index <- createDataPartition(datos[[target_var]], p = .8, list = FALSE)
+  train_data <- datos[index, ]
+  
+  rf_model <- randomForest(
+    as.formula(paste(target_var, "~", paste(predictors, collapse = "+"))),
+    data = train_data,
+    ntree = ntree,
+    mtry = mtry
+  )
+  
+  svm_model <- svm(
+    as.formula(paste(target_var, "~", paste(predictors, collapse = "+"))),
+    data = train_data,
+    cost = cost,
+    gamma = gamma,
+    kernel = "sigmoid"
+  )
+  
+  return(list(rf_model = rf_model, svm_model = svm_model))
+}
 
-# Filtrar conjuntos con características seleccionadas
-train_set_selected <- train_set_numeric[, selected_vars]
-test_set_selected <- test_data_numeric[, selected_vars]
+# Predice usando el modelo de ensamble y aplica votación mayoritaria
+predict_with_ensemble <- function(models, new_data) {
+  if (!"id" %in% colnames(new_data)) {
+    stop("El nuevo dataset debe contener la columna 'id'.")
+  }
+  
+  rf_pred <- predict(models$rf_model, newdata = new_data)
+  svm_pred <- predict(models$svm_model, newdata = new_data)
+  
+  combined_predictions <- data.frame(rf_pred, svm_pred)
+  
+  final_pred_values <- apply(combined_predictions, 1, function(x) {
+    as.character(names(sort(table(x), decreasing = TRUE)[1]))
+  })
+  
+  final_pred <- data.frame(id = new_data$id, inclinacion_peligrosa = final_pred_values)
+  
+  return(final_pred)
+}
 
-# Crear matrices DMatrix para XGBoost
-train_matrix <- xgb.DMatrix(data = as.matrix(train_set_selected), label = as.numeric(train_set$inclinacion_peligrosa) - 1)
-test_matrix <- xgb.DMatrix(data = as.matrix(test_set_selected))
+# Evalúa el modelo utilizando métricas como la matriz de confusión y AUC-ROC
+evaluate_model <- function(predictions, actual_values) {
+  actual_values <- as.factor(actual_values)
+  predictions <- as.factor(predictions)
+  
+  confusion_matrix <- confusionMatrix(predictions, actual_values)
+  auc_roc <- roc(actual_values, as.numeric(predictions))
+  
+  list(
+    confusion_matrix = confusion_matrix,
+    auc_roc = auc_roc$auc
+  )
+}
 
-# Búsqueda de hiperparámetros (grid search)
-tune_grid <- expand.grid(
-  nrounds = c(50, 100, 150),
-  max_depth = c(3, 6, 9),
-  eta = c(0.01, 0.1, 0.3),
-  gamma = c(0, 1, 5),
-  colsample_bytree = c(0.6, 0.8, 1.0),
-  min_child_weight = c(1, 5, 10),
-  subsample = c(0.6, 0.8, 1.0)  # Agregar el parámetro subsample
-)
-
-train_control <- trainControl(
-  method = "cv", 
-  number = 5,
-  classProbs = TRUE,
-  summaryFunction = twoClassSummary,
-  allowParallel = TRUE
-)
-
-# Convertir 'inclinacion_peligrosa' a factor para entrenar con caret
-xgb_tuned <- train(
-  x = as.matrix(train_set_selected), 
-  y = factor(train_set$inclinacion_peligrosa, levels = c("No", "Sí")),
-  method = "xgbTree",
-  metric = "ROC",
-  tuneGrid = tune_grid,
-  trControl = train_control
-)
-
-# Obtener mejores hiperparámetros
-best_params <- xgb_tuned$bestTune
-params <- list(
-  objective = "binary:logistic",
-  eval_metric = "auc",
-  max_depth = best_params$max_depth,
-  eta = best_params$eta,
-  gamma = best_params$gamma,
-  colsample_bytree = best_params$colsample_bytree,
-  min_child_weight = best_params$min_child_weight,
-  scale_pos_weight = sum(train_set$inclinacion_peligrosa == "No") / sum(train_set$inclinacion_peligrosa == "Sí"),
-  subsample = best_params$subsample  # Añadir el parámetro subsample
-)
-
-# Entrenamiento con mejores hiperparámetros
-xgb_model <- xgboost(params = params, data = train_matrix, nrounds = best_params$nrounds, verbose = 0)
-
-# Predicciones en el conjunto de prueba
-val_preds <- predict(xgb_model, test_matrix)
-
-# Determinar umbral óptimo
-optimal_cutoff <- coords(roc(as.numeric(train_set$inclinacion_peligrosa) - 1, predict(xgb_model, train_matrix)), "best", ret = "threshold")
-
-# Clasificar con el umbral óptimo
-test_preds <- ifelse(val_preds > optimal_cutoff, 1, 0)
-
-# Crear archivo de envío
-submission <- data.frame(
-  ID = test_data$id,
-  inclinacion_peligrosa = test_preds
-)
-write.csv(submission, "tp7-ml/code/desafio/arbolado-mza-dataset-envio.csv", row.names = FALSE)
